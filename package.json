@@ -1,0 +1,29 @@
+{
+  "name": "eth-new-contract",
+  "version": "0.0.0",
+  "description": "Promisified web3 new contract instantiation with single resolve.",
+  "license": "ISC",
+  "repository": "https://github.com/raineorshine/eth-new-contract",
+  "author": {
+    "name": "Raine Revere",
+    "email": "raineorshine@gmail.com",
+    "url": "https://github.com/raineorshine"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "ethereum",
+    "eth",
+    "web3",
+    "new"
+  ],
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*"
+  },
+  "dependencies": {}
+}

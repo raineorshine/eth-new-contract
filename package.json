@@ -1,6 +1,6 @@
 {
   "name": "eth-new-contract",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Promisified web3 new contract instantiation with single resolve.",
   "license": "ISC",
   "repository": "https://github.com/raineorshine/eth-new-contract",

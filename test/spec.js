@@ -8,11 +8,11 @@ import { provider } from 'ethereumjs-testrpc'
 const testprovider = provider()
 const web3 = new Web3(testprovider)
 const getAccounts = promisify(web3.eth.getAccounts.bind(web3.eth))
-const newContract = NewContract(testprovider)
 
 describe('eth-new-contract', () => {
   it('should create a new contract from a web3 contract constructor', () => {
 
+    const newContract = NewContract(testprovider)
     const compilation = solc.compile('contract MyContract { function GetAnswer() constant returns(uint) { return 42; } }')
     const bytecode = compilation.contracts.MyContract.bytecode
     const abi = JSON.parse(compilation.contracts.MyContract.interface)
@@ -33,6 +33,7 @@ describe('eth-new-contract', () => {
 
   it('should create a new contract from source', () => {
 
+    const newContract = NewContract(testprovider)
     const source = 'contract MyContract { function GetAnswer() constant returns(uint) { return 42; } }'
 
     return getAccounts()
@@ -43,5 +44,26 @@ describe('eth-new-contract', () => {
           assert.equal(val.toString(), '42')
         })
       })
+  })
+
+  it('should use a cached version of a contract with the same source', function () {
+    this.timeout(5000)
+
+    let pinger = 0;
+    const ping = () => { pinger++ }
+
+    const newContract = NewContract(testprovider, { onCompile: ping })
+    const source1 = 'contract MyContract { function GetAnswer() constant returns(uint) { return 42; } }'
+    const source2 = 'contract MyContract { function GetAnswer() constant returns(uint) { return 0; } }'
+
+    return getAccounts().then(accounts => {
+      return Promise.resolve()
+      .then(() => newContract(source1, { from: accounts[0] }))
+      .then(() => newContract(source1, { from: accounts[0] }))
+      .then(() => newContract(source1, { from: accounts[0] }))
+      .then(() => assert.equal(pinger, 1))
+      .then(() => newContract(source2, { from: accounts[0] }))
+      .then(() => assert.equal(pinger, 2))
+    })
   })
 })

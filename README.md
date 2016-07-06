@@ -1,9 +1,10 @@
 # eth-new-contract
 [![npm version](https://img.shields.io/npm/v/eth-new-contract.svg)](https://npmjs.org/package/eth-new-contract)
+[![Build Status](https://travis-ci.org/raineorshine/eth-new-contract.svg?branch=master)](https://travis-ci.org/raineorshine/eth-new-contract)
 
-Promisified web3 new contract instantiation with single resolve.
+eth-new-contract is an npm module that allows you to deploy a Solidity contract and create a web3 contract instance straight from source. Subsequent calls use cached bytecode for performance.
 
-The default `new` method of web3 has the somewhat quirky behavior of invoking the callback twice—once to return the transaction hash and once when the contract is deployed. Usually you want to just wait until the contract is deployed. This simple (12 LOC) module wraps the `new` method in an intuitive promise the resolves to the contract instance when it has been deployed.
+The default `new` method of web3 has the somewhat quirky behavior of invoking its callback twice—once to return the transaction hash and once when the contract is deployed. Usually you don't care about the transaction hash initially, so in this library, the promise resolves when it is deployed. `contract.transactionHash` can then be accessed like on any web3 contract.
 
 ## Install
 
@@ -12,6 +13,25 @@ $ npm install --save eth-new-contract
 ```
 
 ## Usage
+
+```js
+const Web3 = require('web3')
+const NewContract = require('eth-new-contract')
+
+// you must provide a web3 provider
+const provider = new Web3.providers.HttpProvider('http://localhost:8545')
+const newContract = NewContract(provider)
+
+// instantiate from source
+const source = 'contract MyContract { function GetAnswer() constant returns(uint) { return 42; } }'
+newContract(source, { from: web3.eth.accounts[0] })
+  .then(contract => {
+    console.log('Contract deployed at ' + contract.address)
+  })
+  .catch(console.log)
+```
+
+You can also compile and generate the web3 constructor yourself and pass it to eth-new-contract:
 
 ```js
 const solc = require('solc')
@@ -26,7 +46,7 @@ const abi = JSON.parse(compilation.contracts[contractName].interface)
 const MyContract = web3.eth.contract(abi)
 
 // deploy
-newContract(MyContract, { from: web3.eth.accounts[0], data: bytecode, gas: 3e6 })
+newContract(MyContract, { from: web3.eth.accounts[0], data: bytecode })
   .then(contract => {
     console.log('Contract deployed at ' + contract.address)
   })

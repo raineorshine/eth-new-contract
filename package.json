@@ -1,7 +1,7 @@
 {
   "name": "eth-new-contract",
   "version": "0.1.0",
-  "description": "Simpler, promisified web3 contract instantiation.",
+  "description": "Deploy Solidity contracts straight from source.",
   "license": "ISC",
   "repository": "https://github.com/raineorshine/eth-new-contract",
   "author": {
@@ -12,8 +12,12 @@
   "engines": {
     "node": ">=0.12"
   },
+  "main": "dist/index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register"
+    "build": "babel -d dist src",
+    "test": "mocha --compilers js:babel-register",
+    "postinstall": "npm run build",
+    "watch": "nodemon -w src -w test -x \"npm run build && npm test\""
   },
   "keywords": [
     "contract",
@@ -24,13 +28,16 @@
     "web3"
   ],
   "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-preset-es2015": "^6.9.0",
     "babel-register": "^6.9.0",
     "bluebird": "^3.4.1",
     "ethereumjs-testrpc": "^2.0.9",
-    "mocha": "*",
-    "solc": "^0.3.5"
+    "mocha": "*"
   },
-  "dependencies": {}
+  "dependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0",
+    "lodash.merge": "^4.4.0",
+    "solc": "^0.3.5",
+    "web3": "^0.16.0"
+  }
 }

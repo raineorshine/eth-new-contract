@@ -1,7 +1,7 @@
 # eth-new-contract
 [![npm version](https://img.shields.io/npm/v/eth-new-contract.svg)](https://npmjs.org/package/eth-new-contract)
 
-eth-new-contract is an npm module that allows you to deploy a Solidity contract and create a web3 contract instance straight from source. Subsequent calls use cached bytecode for performance.
+`eth-new-contract` is an npm module that allows you to deploy a Solidity contract and create a web3 contract instance straight from source. Subsequent calls use cached bytecode for performance.
 
 The default `new` method of web3 has the somewhat quirky behavior of invoking its callback twice—once to return the transaction hash and once when the contract is deployed. Usually you don't care about the transaction hash initially, so in this library, the promise resolves when it is deployed. `contract.transactionHash` can then be accessed like on any web3 contract.
 
@@ -15,11 +15,9 @@ $ npm install --save eth-new-contract
 
 ```js
 const Web3 = require('web3')
-const NewContract = require('eth-new-contract')
-
-// you must provide a web3 provider
 const provider = new Web3.providers.HttpProvider('http://localhost:8545')
-const newContract = NewContract(provider)
+const web3 = new Web3(provider)
+const newContract = require('eth-new-contract')(provider)
 
 // instantiate from source
 const source = 'contract MyContract { function GetAnswer() constant returns(uint) { return 42; } }'
@@ -27,10 +25,9 @@ newContract(source, { from: web3.eth.accounts[0] })
   .then(contract => {
     console.log('Contract deployed at ' + contract.address)
   })
-  .catch(console.log)
 ```
 
-You can also compile and generate the web3 constructor yourself and pass it to eth-new-contract:
+You can also compile and generate the web3 constructor yourself and pass it to `eth-new-contract`:
 
 ```js
 const solc = require('solc')
@@ -49,7 +46,6 @@ newContract(MyContract, { from: web3.eth.accounts[0], data: bytecode })
   .then(contract => {
     console.log('Contract deployed at ' + contract.address)
   })
-  .catch(console.log)
 ```
 
 ## License

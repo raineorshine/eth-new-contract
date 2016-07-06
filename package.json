@@ -1,7 +1,7 @@
 {
   "name": "eth-new-contract",
   "version": "0.1.0",
-  "description": "Promisified web3 new contract instantiation with single resolve.",
+  "description": "Simpler, promisified web3 contract instantiation.",
   "license": "ISC",
   "repository": "https://github.com/raineorshine/eth-new-contract",
   "author": {
@@ -10,20 +10,27 @@
     "url": "https://github.com/raineorshine"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=0.12"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --compilers js:babel-register"
   },
   "keywords": [
+    "contract",
     "ethereum",
     "eth",
-    "web3",
-    "new"
+    "new",
+    "solidity",
+    "web3"
   ],
   "devDependencies": {
-    "chai": "*",
-    "mocha": "*"
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-register": "^6.9.0",
+    "bluebird": "^3.4.1",
+    "ethereumjs-testrpc": "^2.0.9",
+    "mocha": "*",
+    "solc": "^0.3.5"
   },
   "dependencies": {}
 }

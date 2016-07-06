@@ -1,6 +1,5 @@
 # eth-new-contract
 [![npm version](https://img.shields.io/npm/v/eth-new-contract.svg)](https://npmjs.org/package/eth-new-contract)
-[![Build Status](https://travis-ci.org/raineorshine/eth-new-contract.svg?branch=master)](https://travis-ci.org/raineorshine/eth-new-contract)
 
 eth-new-contract is an npm module that allows you to deploy a Solidity contract and create a web3 contract instance straight from source. Subsequent calls use cached bytecode for performance.
 

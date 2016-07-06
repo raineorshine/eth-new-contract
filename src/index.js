@@ -4,7 +4,7 @@ import merge from 'lodash.merge'
 
 export default provider => (sourceOrConstructor, constructorArgs) => {
 
-  const web3 = new Web3(provider)
+  const web3 = provider ? new Web3(provider) : null
 
   return new Promise((resolve, reject) => {
     if(!sourceOrConstructor) {

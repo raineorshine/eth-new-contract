@@ -5,10 +5,11 @@ import memoize from 'memoizee'
 
 /** Compiles a Solidity contract from source returning a contract constructor and its bytecode. Memoized on source. */
 const compile = (source, provider, cb) => {
-  const contractName = source.match(/contract\s([^\s]*)\s*{/)[1]
-  if(!contractName) {
+  const contractNameMatch = source.match(/(?:contract|library)\s([^\s]*)\s*{/)
+  if(!contractNameMatch) {
     throw new Error('Could not parse contract name from source.')
   }
+  const contractName = contractNameMatch[1]
   const web3 = new Web3(provider)
   const compilation = solc.compile(source)
   const abi = JSON.parse(compilation.contracts[contractName].interface)

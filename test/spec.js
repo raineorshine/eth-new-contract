@@ -46,6 +46,18 @@ describe('eth-new-contract', () => {
       })
   })
 
+  it('should create a library from source', () => {
+
+    const newContract = NewContract(testprovider)
+    const source = 'library MyContract { function GetAnswer() constant returns(uint) { return 42; } }'
+
+    return getAccounts()
+      .then(accounts => newContract(source, { from: accounts[0] }))
+      .then(contract => {
+        assert(contract.address, 'Address is not defined')
+      })
+  })
+
   it('should use a cached version of a contract with the same source', function () {
     this.timeout(5000)
 

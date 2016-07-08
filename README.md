@@ -17,7 +17,7 @@ $ npm install --save eth-new-contract
 const Web3 = require('web3')
 const provider = new Web3.providers.HttpProvider('http://localhost:8545')
 const web3 = new Web3(provider)
-const newContract = require('eth-new-contract')(provider)
+const newContract = require('eth-new-contract').default(provider)
 
 // instantiate from source
 const source = 'contract MyContract { function GetAnswer() constant returns(uint) { return 42; } }'
@@ -33,7 +33,7 @@ You can also compile and generate the web3 constructor yourself and pass it to `
 const solc = require('solc')
 const Web3 = require('web3')
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-const newContract = require('eth-new-contract')() // no provider needed
+const newContract = require('eth-new-contract').default() // no provider needed
 
 // compile contract
 const compilation = solc.compile(contractSource)

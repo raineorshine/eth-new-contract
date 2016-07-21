@@ -46,6 +46,21 @@ describe('eth-new-contract', () => {
       })
   })
 
+  it('should create a new contract with constructor arguments', () => {
+
+    const newContract = NewContract(testprovider)
+    const source = 'contract MyContract { uint a; function MyContract(uint _a) { a = _a; } function GetAnswer() constant returns(uint) { return a; } }'
+
+    return getAccounts()
+      .then(accounts => newContract(source, 42, { from: accounts[0] }))
+      .then(contract => {
+        assert(contract.address, 'Address is not defined')
+        return promisify(contract.GetAnswer.bind(contract))().then(val => {
+          assert.equal(val.toString(), '42')
+        })
+      })
+  })
+
   it('should create a library from source', () => {
 
     const newContract = NewContract(testprovider)

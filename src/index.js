@@ -30,7 +30,7 @@ export default (provider, options = {}) => {
   // memoize the compile function
   const compileMemoized = memoize(compile, { length: 1 })
 
-  return (sourceOrConstructor, constructorArgs) => {
+  return (sourceOrConstructor, ...constructorArgs) => {
 
     return new Promise((resolve, reject) => {
       if(!sourceOrConstructor) {
@@ -44,7 +44,7 @@ export default (provider, options = {}) => {
       if(typeof sourceOrConstructor === 'string') {
         const compiled = compileMemoized(sourceOrConstructor, provider, options.onCompile)
         Contract = compiled.Contract
-        args = merge({ data: compiled.bytecode }, constructorArgs)
+        args = [].concat(constructorArgs.slice(0, constructorArgs.length - 1), merge({ data: compiled.bytecode }, constructorArgs[constructorArgs.length - 1]))
       }
       // use provided constructor
       else {
@@ -53,7 +53,7 @@ export default (provider, options = {}) => {
       }
 
       // return a promise of a new contract instance
-      Contract.new(args, (err, contract) => {
+      Contract.new(...args, (err, contract) => {
         if (err) {
           reject(err)
         } else if (contract.address) {

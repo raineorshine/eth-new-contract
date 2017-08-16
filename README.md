@@ -48,6 +48,10 @@ newContract(MyContract, { from: web3.eth.accounts[0], data: bytecode })
   })
 ```
 
+## Developer Notes
+
+- `bip39` incompatibility with testrpc requires explicit dependency version: https://github.com/ethereumjs/testrpc/issues/313#issuecomment-304790839
+
 ## License
 
 ISC © [Raine Revere](https://github.com/raineorshine)

@@ -12,7 +12,8 @@ const compile = (source, provider, cb) => {
   const contractName = contractNameMatch[1]
   const web3 = new Web3(provider)
   const compilation = solc.compile(source)
-  const abi = JSON.parse(compilation.contracts[contractName].interface)
+  const contract = compilation.contracts[':' + contractName]
+  const abi = JSON.parse(contract.interface)
 
   // invoke callback so we can test memoization
   if(cb) {
@@ -21,7 +22,7 @@ const compile = (source, provider, cb) => {
 
   return {
     Contract: web3.eth.contract(abi),
-    bytecode: compilation.contracts[contractName].bytecode
+    bytecode: contract.bytecode
   }
 }
 

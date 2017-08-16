@@ -14,8 +14,9 @@ describe('eth-new-contract', () => {
 
     const newContract = NewContract(testprovider)
     const compilation = solc.compile('contract MyContract { function GetAnswer() constant returns(uint) { return 42; } }')
-    const bytecode = compilation.contracts.MyContract.bytecode
-    const abi = JSON.parse(compilation.contracts.MyContract.interface)
+    const contract = compilation.contracts[':MyContract']
+    const bytecode = contract.bytecode
+    const abi = JSON.parse(contract.interface)
     const MyContract = web3.eth.contract(abi)
 
     return getAccounts()

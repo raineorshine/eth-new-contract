@@ -1,6 +1,6 @@
 {
   "name": "eth-new-contract",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Deploy Solidity contracts straight from source.",
   "license": "ISC",
   "repository": "https://github.com/raineorshine/eth-new-contract",
